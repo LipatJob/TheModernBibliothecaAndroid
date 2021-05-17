@@ -3,10 +3,20 @@ package com.example.themodernbibliothecaandroid.Repository;
 import java.util.Date;
 
 public class Activity {
-    public Date date;
-    public String email;
-    public String description;
-    public String accountType;
+    private Date date;
+    private String email;
+    private String description;
+    private String accountType;
+
+    public Activity() {
+    }
+
+    public Activity(Date date, String email, String description, String accountType) {
+        this.date = date;
+        this.email = email;
+        this.description = description;
+        this.accountType = accountType;
+    }
 
     public Date getDate() {
         return date;
@@ -39,4 +49,16 @@ public class Activity {
     public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "date=" + date +
+                ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                ", accountType='" + accountType + '\'' +
+                '}';
+    }
+
+
 }
