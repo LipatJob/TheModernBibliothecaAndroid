@@ -1,34 +1,34 @@
 package com.example.themodernbibliothecaandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
-import com.example.themodernbibliothecaandroid.Repository.ActivityRepository;
+import com.example.themodernbibliothecaandroid.Repository.ActivityAdapter;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textView;
-    ActivityRepository repository;
+
+    RecyclerView recyclerView;
+    String dateList[], emailList[], descList[], typeList[];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.hello_world_tv);
+        recyclerView = findViewById(R.id.recyclerView);
 
-        repository = new ActivityRepository();
+        dateList = getResources().getStringArray(R.array.date);
+        emailList = getResources().getStringArray(R.array.user_email);
+        descList = getResources().getStringArray(R.array.description);
+        typeList = getResources().getStringArray(R.array.user_type);
 
-        Bind();
+        ActivityAdapter adapter = new ActivityAdapter(this, dateList, emailList, descList, typeList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
-    public void Bind(){
-        repository.BindActivities(this);
-    }
-
-
-
-
-
-
 }
