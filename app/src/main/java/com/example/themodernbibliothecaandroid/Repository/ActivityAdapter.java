@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.themodernbibliothecaandroid.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.MyViewHolder> {
 
-    String date[], email[], desc[], type[];
+    List<Activity> activityList;
     Context context;
 
-    public ActivityAdapter(Context ct, String dateList[], String emailList[], String descList[], String typeList[]){
+    public ActivityAdapter(Context ct, List<Activity> activityList){
         context = ct;
-        date = dateList;
-        email = emailList;
-        desc = descList;
-        type = typeList;
+        this.activityList = activityList;
     }
 
     @NonNull
@@ -34,15 +34,15 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.dateText.setText(date[position]);
-        holder.emailText.setText(email[position]);
-        holder.descText.setText(desc[position]);
-        holder.typeText.setText(type[position]);
+        holder.dateText.setText(activityList.get(position).getDate().toString());
+        holder.emailText.setText(activityList.get(position).getEmail());
+        holder.descText.setText(activityList.get(position).getDescription());
+        holder.typeText.setText(activityList.get(position).getAccountType());
     }
 
     @Override
     public int getItemCount() {
-        return date.length;
+        return activityList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -56,5 +56,10 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.MyView
             descText = itemView.findViewById(R.id.desc_text);
             typeText = itemView.findViewById(R.id.type_text);
         }
+    }
+
+    public void setDataChange(List<Activity> activityList){
+        this.activityList = new ArrayList<>(activityList);
+        notifyDataSetChanged();
     }
 }

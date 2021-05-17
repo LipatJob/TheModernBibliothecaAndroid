@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ActivityRepository {
-    public void BindActivities(Context context) {
+    public void BindActivities(Context context, ActivityAdapter adapter) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = "https://themodernbibliotheca.azurewebsites.net/Admin/Activity.aspx/Json";
 
@@ -31,7 +31,6 @@ public class ActivityRepository {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // response
                         List<Activity> activities = new ArrayList<>();
                         try {
                             JSONArray objects = new JSONObject(response).getJSONArray("d");
@@ -40,17 +39,19 @@ public class ActivityRepository {
                                 JSONObject current = objects.getJSONObject(i);
 
                                 Activity activity = new Activity();
-                                activity.accountType = current.getString("UserType");
-                                activity.email = current.getString("Email");
-                                activity.description = current.getString("Description");
+                                activity.setAccountType(current.getString("UserType"));
+                                activity.setEmail(current.getString("Email"));
+                                activity.setDescription(current.getString("Description"));
                                 String tempDate = current.getString("TimeStamp");
                                 long time = Long.parseLong(tempDate.replaceFirst("^.*Date\\((\\d+)\\).*$", "$1"));
-                                activity.date = new Date(time);
+                                activity.setDate(new Date(time));
 
                                 activities.add(activity);
 
                                 Toast.makeText(context, "SUCCESS: " + activity, Toast.LENGTH_LONG).show();
                             }
+
+                            adapter.setDataChange(activities);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

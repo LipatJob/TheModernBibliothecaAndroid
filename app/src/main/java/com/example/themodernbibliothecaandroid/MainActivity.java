@@ -6,14 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.example.themodernbibliothecaandroid.Repository.Activity;
 import com.example.themodernbibliothecaandroid.Repository.ActivityAdapter;
+import com.example.themodernbibliothecaandroid.Repository.ActivityRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    String dateList[], emailList[], descList[], typeList[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        dateList = getResources().getStringArray(R.array.date);
-        emailList = getResources().getStringArray(R.array.user_email);
-        descList = getResources().getStringArray(R.array.description);
-        typeList = getResources().getStringArray(R.array.user_type);
+        List<Activity> activityList = new ArrayList<>();
 
-        ActivityAdapter adapter = new ActivityAdapter(this, dateList, emailList, descList, typeList);
+        ActivityAdapter adapter = new ActivityAdapter(this, activityList);
         recyclerView.setAdapter(adapter);
+
+        ActivityRepository repo = new ActivityRepository();
+        repo.BindActivities(this, adapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 }
