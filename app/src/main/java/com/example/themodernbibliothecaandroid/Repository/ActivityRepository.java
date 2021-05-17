@@ -3,11 +3,8 @@ package com.example.themodernbibliothecaandroid.Repository;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -15,7 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,46 +24,37 @@ public class ActivityRepository {
         String url = "https://themodernbibliotheca.azurewebsites.net/Admin/Activity.aspx/Json";
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        List<Activity> activities = new ArrayList<>();
-                        try {
-                            JSONArray objects = new JSONObject(response).getJSONArray("d");
+                response -> {
+                    List<Activity> activities = new ArrayList<>();
+                    try {
+                        JSONArray objects = new JSONObject(response).getJSONArray("d");
 
-                            for(int i = 0; i < objects.length(); i++){
-                                JSONObject current = objects.getJSONObject(i);
+                        for(int i = 0; i < objects.length(); i++){
+                            JSONObject current = objects.getJSONObject(i);
 
-                                Activity activity = new Activity();
-                                activity.setAccountType(current.getString("UserType"));
-                                activity.setEmail(current.getString("Email"));
-                                activity.setDescription(current.getString("Description"));
-                                String tempDate = current.getString("TimeStamp");
-                                long time = Long.parseLong(tempDate.replaceFirst("^.*Date\\((\\d+)\\).*$", "$1"));
-                                activity.setDate(new Date(time));
+                            String tempDate = current.getString("TimeStamp");
+                            long time = Long.parseLong(tempDate.replaceFirst("^.*Date\\((\\d+)\\).*$", "$1"));
 
-                                activities.add(activity);
+                            Activity activity = new Activity(
+                                    new Date(time),
+                                    current.getString("Email"),
+                                    current.getString("Description"),
+                                    current.getString("UserType"));
 
-                                Toast.makeText(context, "SUCCESS: " + activity, Toast.LENGTH_LONG).show();
-                            }
+                            activities.add(activity);
 
-                            adapter.setDataChange(activities);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+
+                        adapter.setDataChange(activities);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-                        Toast.makeText(context, "ERROR:" + error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
+                error -> Toast.makeText(context, "ERROR:" + error.getLocalizedMessage(), Toast.LENGTH_LONG).show()
         ) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<>();
                 params.put("Content-Type", "application/json");
                 return params;
             }
