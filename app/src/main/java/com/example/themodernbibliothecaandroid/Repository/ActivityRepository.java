@@ -22,6 +22,9 @@ import java.util.Map;
 
 public class ActivityRepository {
     public void BindActivities(Context context, ActivityAdapter adapter) {
+
+
+
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = "https://themodernbibliotheca.azurewebsites.net/Admin/Activity.aspx/Json";
 
@@ -31,7 +34,8 @@ public class ActivityRepository {
                     try {
                         JSONArray objects = new JSONObject(response).getJSONArray("d");
 
-                        for(int i = 0; i < objects.length(); i++){
+                        int count = Math.min(objects.length(), 100);
+                        for(int i = 0; i < count; i++){
                             JSONObject current = objects.getJSONObject(i);
 
                             String tempDate = current.getString("TimeStamp");
@@ -43,7 +47,6 @@ public class ActivityRepository {
                                     current.getString("UserType"));
 
                             activities.add(activity);
-
                         }
 
                         adapter.setDataChange(activities);

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.themodernbibliothecaandroid.Repository.Activity;
 import com.example.themodernbibliothecaandroid.Repository.ActivityAdapter;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshItems(View view) {
+        Toast.makeText(this, "Loading items...", Toast.LENGTH_SHORT).show();
         loadItems();
     }
 
