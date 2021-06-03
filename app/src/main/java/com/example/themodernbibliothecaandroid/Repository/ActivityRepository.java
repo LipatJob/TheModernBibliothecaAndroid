@@ -12,6 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,7 +36,6 @@ public class ActivityRepository {
 
                             String tempDate = current.getString("TimeStamp");
                             long time = Long.parseLong(tempDate.replaceFirst("^.*Date\\((\\d+)\\).*$", "$1"));
-
                             Activity activity = new Activity(
                                     new Date(time),
                                     current.getString("Email"),

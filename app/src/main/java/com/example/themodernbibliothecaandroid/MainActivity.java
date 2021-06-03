@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.themodernbibliothecaandroid.Repository.Activity;
 import com.example.themodernbibliothecaandroid.Repository.ActivityAdapter;
@@ -16,7 +17,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-
+    ActivityRepository repository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,14 +25,21 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        List<Activity> activityList = new ArrayList<>();
+        loadItems();
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    public void refreshItems(View view) {
+        loadItems();
+    }
+
+    private void loadItems(){
+        List<Activity> activityList = new ArrayList<>();
         ActivityAdapter adapter = new ActivityAdapter(this, activityList);
         recyclerView.setAdapter(adapter);
 
-        ActivityRepository repo = new ActivityRepository();
-        repo.BindActivities(this, adapter);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        repository = new ActivityRepository();
+        repository.BindActivities(this, adapter);
     }
 }

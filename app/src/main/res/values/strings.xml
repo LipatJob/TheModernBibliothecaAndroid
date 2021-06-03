@@ -1,27 +1,3 @@
 <resources>
-    <string name="app_name">User Activity</string>
-    
-    <string-array name="date">
-        <item>5 February 2020</item>
-        <item>5 February 2020</item>
-        <item>5 February 2020</item>
-    </string-array>
-    
-    <string-array name="user_email">
-        <item>job@gmail.com</item>
-        <item>mark@gmail.com</item>
-        <item>charmaine@gmail.com</item>
-    </string-array>
-    
-    <string-array name="description">
-        <item>User added 123028344</item>
-        <item>User added 123028344</item>
-        <item>User added 123028344</item>
-    </string-array>
-
-    <string-array name="user_type">
-        <item>Admin</item>
-        <item>Borrower</item>
-        <item>Librarian</item>
-    </string-array>
+    <string name="app_name">The Modern Bibliotheca</string>
 </resources>

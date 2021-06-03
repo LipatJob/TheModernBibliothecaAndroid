@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.themodernbibliothecaandroid.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.MyViewHolder> {
 
@@ -34,7 +36,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.dateText.setText(activityList.get(position).getDate().toString());
+        String pattern = "MMM dd, yyyy hh:mm a";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        holder.dateText.setText(formatter.format(activityList.get(position).getDate()).toString());
         holder.emailText.setText(activityList.get(position).getEmail());
         holder.descText.setText(activityList.get(position).getDescription());
         holder.typeText.setText(activityList.get(position).getAccountType());
